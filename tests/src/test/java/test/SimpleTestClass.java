@@ -1,18 +1,24 @@
 package test;
 
+import com.google.common.collect.Comparators;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.LandingPage;
+import pageObjects.Product;
 import pageObjects.SearchPage;
 import testUtils.BasicTest;
 import testUtils.UtilsFactory;
 
-import static pageObjects.LandingPage.*;
-import static pageObjects.SearchPage.*;
+import java.util.Comparator;
+
+import static pageObjects.LandingPage.getLandingPage;
+import static pageObjects.SearchPage.getSearchPage;
+
 
 public class SimpleTestClass extends BasicTest {
+
+    String subCategoryName = "CM";
+    String filterCategoryOption = "29.7";
 
     LandingPage landingPage;
     SearchPage searchPage;
@@ -20,19 +26,19 @@ public class SimpleTestClass extends BasicTest {
     @Test
     public void simpleTest(){
 
-//        landingPage = getLandingPage();
-//        landingPage.searchFor("KARHU");
+        landingPage = getLandingPage();
+        landingPage.searchFor("KARHU");
         searchPage = getSearchPage();
 
-        searchPage.getSubCategoryByName("CM").getShowAllButton().click();
-        searchPage.getSubCategoryByName("CM").getFilterCategoriesOption("29.7")
-                .getFsCheckBoxBox().click();
+        searchPage.getSubCategoryByName(subCategoryName).clickShowAllButton();
+        searchPage.getSubCategoryByName(subCategoryName).selectFilterCategoriesOption(filterCategoryOption);
 
-        UtilsFactory.getDriverWait().until(ExpectedConditions.elementToBeClickable(searchPage.getDropDown())).click();
-        searchPage.getDropDown().getDropDownOption("Najnižšia cena").click();
+        searchPage.selectDropDownOption("Najnižšia cena");
 
-
-
-        System.out.print("tutacakam");
+        // check that products are sorted by price, ascending
+        Comparator <Product> byPrice = Comparator.comparing(Product::getPrice);
+        searchPage.getProductWrapper().getProducts().forEach(product -> System.out.println(product.getPrice()));
+        Assertions.assertThat(Comparators.isInOrder(searchPage.getProductWrapper().getProducts(), byPrice))
+                .isTrue();
     }
 }

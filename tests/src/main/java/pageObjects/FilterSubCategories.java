@@ -1,10 +1,7 @@
 package pageObjects;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import ru.yandex.qatools.htmlelements.element.CheckBox;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
-import ru.yandex.qatools.htmlelements.element.TypifiedElement;
 import ru.yandex.qatools.htmlelements.exceptions.HtmlElementsException;
 
 import java.util.List;
@@ -37,7 +34,17 @@ public class FilterSubCategories extends HtmlElement{
                 .contains(filterCategoryOption)).findFirst().orElseThrow(HtmlElementsException::new);
     }
 
+    public void selectFilterCategoriesOption(String filterCategoryOption) {
+        FsCheckBox fsCheckBox = subCategoryOptions.stream().filter(subCategoryOption -> subCategoryOption.getText()
+                .contains(filterCategoryOption)).findFirst().orElseThrow(HtmlElementsException::new);
+        fsCheckBox.getFsCheckBoxBox().click();
+    }
+
     public HtmlElement getShowAllButton() {
         return showAllButton;
+    }
+
+    public void clickShowAllButton() {
+        showAllButton.click();
     }
 }
