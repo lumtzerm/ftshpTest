@@ -1,11 +1,8 @@
 package pageObjects;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.exceptions.HtmlElementsException;
-import testUtils.UtilsFactory;
 
 import java.util.List;
 

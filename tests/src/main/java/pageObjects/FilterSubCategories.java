@@ -28,15 +28,17 @@ public class FilterSubCategories extends HtmlElement{
         return subCategoryOptions;
     }
 
-    // TODO: parse text to split size and number of items in that size in stock
     public FsCheckBox getFilterCategoriesOption(String filterCategoryOption) {
         return subCategoryOptions.stream().filter(subCategoryOption -> subCategoryOption.getText()
+                .substring(0, subCategoryOption.getText().indexOf(' '))
                 .contains(filterCategoryOption)).findFirst().orElseThrow(HtmlElementsException::new);
     }
 
     public void selectFilterCategoriesOption(String filterCategoryOption) {
         FsCheckBox fsCheckBox = subCategoryOptions.stream().filter(subCategoryOption -> subCategoryOption.getText()
+                .substring(0, subCategoryOption.getText().indexOf(' '))
                 .contains(filterCategoryOption)).findFirst().orElseThrow(HtmlElementsException::new);
+
         fsCheckBox.getFsCheckBoxBox().click();
     }
 

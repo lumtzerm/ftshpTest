@@ -1,6 +1,7 @@
 package pageObjects;
 
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.yandex.qatools.htmlelements.element.HtmlElement;
 import ru.yandex.qatools.htmlelements.exceptions.HtmlElementsException;
 import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
@@ -23,6 +24,9 @@ public class SearchPage {
     @FindBy(className = "Dropdown_dropdown_3tKJH")
     private FsDropDown dropDown;
 
+    @FindBy(className = "Dropdown_disabled_11lRZ")
+    private HtmlElement disabledDropDown;
+
     @FindBy(className = "Products_wrapper_18Efi")
     private ProductWrapper productWrapper;
 
@@ -42,8 +46,12 @@ public class SearchPage {
         return productWrapper;
     }
 
+    public HtmlElement getDisabledDropDown() {
+        return disabledDropDown;
+    }
+
     public void selectDropDownOption(String dropDownOptionName) {
-        UtilsFactory.getFluentWait().until(driver -> getDropDownOption("Najnižšia cena"));
+        dropDown.click();
         dropDown.getDropDownOption(dropDownOptionName).click();
     }
 
@@ -60,5 +68,11 @@ public class SearchPage {
             return getSubCategories().stream().filter(subCategory ->
                     subCategory.getFilterTitle().getText().equals(subCategoryName))
                         .findFirst().orElseThrow(HtmlElementsException::new);
+    }
+
+    public void waitTillSortDone(){
+        UtilsFactory.getDriverWait().until(ExpectedConditions.not(
+                ExpectedConditions.attributeContains(
+                        getDropDown(), "class", "Dropdown_disabled_11lRZ")));
     }
 }

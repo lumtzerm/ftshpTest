@@ -1,27 +1,28 @@
 package pageObjects;
 
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
+import ru.yandex.qatools.htmlelements.loader.HtmlElementLoader;
 import testUtils.UtilsFactory;
 
 public class LandingPage {
 
     @FindBy(className = "SearchIcon_searchIcon_2rre5")
-    public WebElement searchIcon;
+    public HtmlElement searchIcon;
 
     @FindBy(className = "Input_input_95e7J")
-    public WebElement searchInput;
+    public HtmlElement searchInput;
 
     @FindBy(className = "Search_iconContainer_2MkpU")
-    public WebElement searchButton;
+    public HtmlElement searchButton;
 
 
     private LandingPage() {
     }
+
     public static LandingPage getLandingPage() {
         LandingPage landingPage = new LandingPage();
-        PageFactory.initElements(UtilsFactory.getDriver(), landingPage);
+        HtmlElementLoader.populatePageObject(landingPage, UtilsFactory.getDriver());
         return landingPage;
     }
 
@@ -30,8 +31,5 @@ public class LandingPage {
         searchInput.sendKeys(text);
         searchButton.click();
     }
-
-
-
 }
 

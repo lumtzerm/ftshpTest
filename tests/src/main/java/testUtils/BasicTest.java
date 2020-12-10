@@ -4,26 +4,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static testUtils.UtilsFactory.*;
+import static testUtils.UtilsFactory.getDriver;
 
 public class BasicTest {
-    // Basic test class
+
     private static WebDriver driver;
 
     @Before
     public void startup() {
 
-        //change to webdriver location
+        // webDriver for chrome, version 87.0.4280.88
         System.setProperty("webdriver.chrome.driver",
                 "src/main/resources/webdriver/chromedriver/chromedriver.exe");
-
         driver = getDriver();
-
         driver.get("https://www.footshop.sk");
-
-//        driver.get("https://www.footshop.sk/sk/102_karhu");
         driver.findElement(By.className("CookieConsent_button_2ooNQ")).click();
     }
     @After
